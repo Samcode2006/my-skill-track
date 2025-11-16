@@ -4,11 +4,11 @@ export default async function handler(req, res) {
     }
 
     const { logs } = req.body;
-    const hfToken = process.env.HF_API_TOKEN;
+    const groqApiKey = process.env.GROQ_API_KEY;
 
-    if (!hfToken) {
-        console.error('HF_API_TOKEN environment variable not set');
-        return res.status(500).json({ error: 'API token not configured' });
+    if (!groqApiKey) {
+        console.error('GROQ_API_KEY environment variable not set');
+        return res.status(500).json({ error: 'API key not configured' });
     }
 
     if (!logs || logs.length === 0) {
@@ -44,41 +44,46 @@ Stats:
 Provide a brief, encouraging summary (2-3 sentences) and 2-3 specific, actionable tips to improve their learning. Be concise and motivating.`;
 
     try {
-        const response = await fetch(
-            "https://api-inference.huggingface.co/models/meta-llama/Llama-2-7b-chat-hf",
-            {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${hfToken}`,
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    inputs: prompt,
-                    parameters: {
-                        max_new_tokens: 300,
-                        temperature: 0.7,
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${groqApiKey}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                model: "mixtral-8x7b-32768",
+                messages: [
+                    {
+                        role: "system",
+                        content: "You are a supportive learning coach. Analyze practice logs and provide personalized, encouraging insights.",
                     },
-                }),
-            }
-        );
+                    {
+                        role: "user",
+                        content: prompt,
+                    },
+                ],
+                temperature: 0.7,
+                max_tokens: 300,
+            }),
+        });
 
         if (!response.ok) {
             const error = await response.json();
-            console.error("Hugging Face API error:", error);
+            console.error("Groq API error:", error);
             return res.status(response.status).json({
                 summary: "Unable to generate AI summary. Please try again.",
-                insights: ["Check your API token", "The model may be loading"],
+                insights: ["Check your API key", "Ensure your API key has sufficient quota"],
                 isError: true,
             });
         }
 
         const data = await response.json();
-        const content = data[0]?.generated_text || "";
+        const content = data.choices[0].message.content;
 
-        // Extract summary and insights from the response
-        const lines = content.split("\n").filter(line => line.trim());
-        const summary = lines.slice(0, 2).join(" ").trim();
-        const insights = lines.slice(2).filter(line => line.trim()).slice(0, 3);
+        // Parse the response
+        const lines = content.split('\n').filter(line => line.trim());
+        const summary = lines.slice(0, 3).join(' ').trim();
+        const insights = lines.slice(3).filter(line => line.trim()).slice(0, 3);
 
         return res.status(200).json({
             summary: summary || "Summary generation completed",
