@@ -29,7 +29,7 @@ function App() {
 
       <ErrorBoundary>
         <main className="container">
-          <h1>AI Skill Tracker (Front-end)</h1>
+          <h1>AI Skill Tracker</h1>
 
           <section className="tracker-grid">
             <div className="panel">
