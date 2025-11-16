@@ -12,6 +12,14 @@
 html,
 body {
   height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 body {
@@ -21,6 +29,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
+}
+
+.app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .header {
@@ -76,6 +90,11 @@ body {
   max-width: 1000px;
   margin: 24px auto;
   padding: 0 16px;
+  flex: 1;
+}
+
+main {
+  flex: 1;
 }
 
 .tracker-grid {
@@ -221,6 +240,16 @@ body {
   background: rgba(255, 255, 255, 0.02);
   padding: 8px;
   border-radius: 6px
+}
+
+footer {
+  background: linear-gradient(90deg, rgba(10, 20, 40, 0.95), rgba(8, 15, 30, 0.95));
+  padding: 16px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9em;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  margin-top: auto;
 }
 
 @media (max-width:800px) {
