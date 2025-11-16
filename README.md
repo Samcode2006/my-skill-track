@@ -1,8 +1,39 @@
-# AI Skill Tracker (Front-end)
+# Skill Tracker – AI-Powered Learning Companion
 
-This is a small React + Vite front-end for tracking practice time per skill with a local "AI-like" summarizer (client-side heuristics only).
+A lightweight **React + Vite** front-end web app to log and track your daily practice time across multiple skills. Get instant summaries, insights, and track your progress over time with a clean, dark-themed interface.
 
-Quick start
+**Live Demo**: [Deployed on GitHub Pages](https://samcode2006.github.io/skill-track)
+
+## Features
+
+✨ **Log Your Work**
+- Enter skill name, hours worked, and optional notes
+- Real-time validation and error handling
+- Clean, intuitive form interface
+
+📊 **Track Daily Progress**
+- See all today's logged entries at a glance
+- Instant total hours calculation
+- Easy remove/delete entries
+- Data persists across sessions (localStorage)
+
+🤖 **Smart Summaries & Insights**
+- Auto-generated daily summary (skill-by-skill breakdown)
+- Total hours and top skill stats
+- Curated insights and learning tips (deterministic, no external API calls)
+- Notes snippets extracted from your entries
+
+🎨 **Dark Theme UI**
+- Modern, responsive design
+- Works on desktop and mobile
+- Accessible, high-contrast colors
+
+## Quick Start
+
+### Prerequisites
+- Node.js 18+ and npm
+
+### Installation & Development
 
 1. Install dependencies
 
@@ -14,71 +45,149 @@ npm install
 
 ```pwsh
 npm run dev
-# open http://localhost:5174
+# Browser opens http://localhost:5174 (or 5173 if 5174 is in use)
 ```
 
-3. Build for production
+3. Build for production (creates `dist/` folder)
 
 ```pwsh
 npm run build
 ```
 
-How to publish to GitHub / Vercel / Netlify
+4. Preview production build locally
 
-- Push this repo to GitHub, then connect to Vercel or Netlify for automatic deploys. Vercel will typically auto-detect Vite and use:
+```pwsh
+npm run preview
+```
 
-	- Build command: `npm run build`
-	- Output directory: `dist`
+## Usage
 
-- Or use Surge for a one-off deploy:
+1. **Log a Skill**: Fill in the form on the left — skill name, hours, and optional notes. Click "Add Log".
+2. **View Today's Logs**: See entries on the right panel. Each entry shows hours worked and notes (if any).
+3. **Get Insights**: The Summary panel at the bottom shows total hours, skill breakdown, and smart learning tips.
+4. **Persistence**: Your data is saved in the browser's localStorage. Refresh the page and your logs stay.
+
+### Example Workflow
+- Morning: Log "React" + 2 hours + "Learned hooks and state management"
+- Afternoon: Log "Prompt Engineering" + 1.5 hours + "Fine-tuned GPT prompts"
+- View summary: "Worked 3.5 hours today on 2 skills. Most time on React. Tips: break sessions into 25–60 min blocks."
+
+## Data & Storage
+
+- **Format**: Entries stored as JSON in browser localStorage under key `ai-skill-tracker-logs-v1`
+- **Scope**: Logs are filtered by date (YYYY-MM-DD), so each day has its own summary
+- **No cloud sync**: This is a front-end-only app; data lives in your browser
+
+## Deployment
+
+### Option 1: GitHub Pages (Automatic with Actions)
+
+This repo includes a GitHub Actions workflow (`.github/workflows/deploy-pages.yml`) that:
+- Builds the app on every push to `main`
+- Deploys `dist/` to GitHub Pages
+- Live site: **https://samcode2006.github.io/skill-track**
+
+Workflow runs automatically after you push. Watch progress in the **Actions** tab of the repo.
+
+### Option 2: Vercel (Recommended for Preview Deployments)
+
+1. Go to [vercel.com](https://vercel.com) and sign in with GitHub
+2. Click "New Project" → Import Git Repository → select `skill-track`
+3. Vercel auto-detects Vite. Accept defaults:
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+4. Click Deploy — done! You'll get a live URL and preview on each pull request
+
+### Option 3: Netlify
+
+1. Go to [netlify.com](https://netlify.com) and sign in with GitHub
+2. Click "New site from Git" → connect your `skill-track` repo
+3. Set build command to `npm run build` and publish directory to `dist`
+4. Deploy — Netlify publishes on every push
+
+### Option 4: One-Off Static Deploy (Surge)
 
 ```pwsh
 npm run build
-# if you have surge installed
+npm install -g surge
 surge ./dist
 ```
 
-One-line to create local git repo and commit (run in project root):
+## Project Structure
 
-```pwsh
-git init
-git add .
-git commit -m "Initial commit: AI Skill Tracker"
+```
+my-react-app/
+├── src/
+│   ├── App.jsx              # Main app component
+│   ├── SkillForm.jsx        # Form to add entries
+│   ├── DailyLog.jsx         # Display today's logs
+│   ├── Summary.jsx          # AI-like summarizer & insights
+│   ├── ErrorBoundary.jsx    # Error UI component
+│   ├── Header.jsx           # Top navigation
+│   ├── Footer.jsx           # Footer
+│   ├── index.css            # Global styles (dark theme)
+│   ├── main.jsx             # React entry point
+│   └── utils/
+│       └── storage.js       # localStorage helpers
+├── public/
+│   └── vite.svg             # Project icon (favicon)
+├── index.html               # HTML template
+├── vite.config.js           # Vite configuration
+├── package.json             # Dependencies
+├── .github/
+│   └── workflows/
+│       └── deploy-pages.yml # GitHub Actions workflow
+└── README.md                # This file
 ```
 
-To push to a new GitHub repo (after creating the repo on github.com):
+## Technical Stack
 
-```pwsh
-git remote add origin https://github.com/<your-username>/<repo-name>.git
-git branch -M main
-git push -u origin main
-```
+- **Framework**: React 19.1.1
+- **Build Tool**: Vite 7.1.12
+- **Styling**: Vanilla CSS (dark theme with CSS variables)
+- **Storage**: Browser localStorage (no server needed)
+- **Linting**: ESLint
 
-If you use the GitHub CLI (gh) you can create the repo and push with:
+## Development & Contributing
 
-```pwsh
-gh repo create <repo-name> --public --source=. --remote=origin --push
-```
+Want to improve the tracker? Here's how:
 
-Notes
-- Data persists in localStorage under the key `ai-skill-tracker-logs-v1`.
-- The "AI summary" is generated client-side with simple heuristics — no external AI calls.
+1. Fork the repo and clone locally
+2. Install dependencies: `npm install`
+3. Start dev server: `npm run dev`
+4. Make changes, test locally
+5. Push to your branch and open a pull request
 
-If you want, I can push this project to a GitHub repo for you — I can't create the remote repo without your GitHub credentials, but I can prepare everything locally and give you the single command to run to publish.
+### Future Ideas
+- Date navigation to view past logs
+- CSV/JSON export of logs
+- Skill categories and filtering
+- Time-series charts (visualize progress over weeks/months)
+- Real LLM integration for better summaries (OpenAI, Claude, etc.)
+- PWA support (offline mode, install as app)
+- Dark/light theme toggle
 
-# React + Vite
+## License & Acknowledgments
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Built with [React](https://react.dev) and [Vite](https://vitejs.dev).
 
-Currently, two official plugins are available:
+## Troubleshooting
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Data not persisting after refresh?**
+- Check if localStorage is enabled in your browser
+- Open DevTools → Application → Local Storage to inspect `ai-skill-tracker-logs-v1`
 
-## React Compiler
+**Port 5174 already in use?**
+- Vite will automatically pick a free port. Check the terminal output for the actual URL
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Entries disappear when switching days?**
+- This is expected — the app filters logs by date. Come back tomorrow and add new entries
 
-## Expanding the ESLint configuration
+**Form validation errors?**
+- Skill name required, hours must be a positive number
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Questions?
+
+Feel free to open an issue on GitHub or reach out!
+
+📧 Contact: samcode2006
