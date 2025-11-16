@@ -55,12 +55,7 @@ function App() {
 
   return (
     <div className="app-root">
-      <Header
-        onUndo={handleUndo}
-        onRedo={handleRedo}
-        canUndo={undoRedoState.canUndo}
-        canRedo={undoRedoState.canRedo}
-      />
+      <Header />
 
       <ErrorBoundary>
         <main className="container">
@@ -69,10 +64,14 @@ function App() {
           <section className="tracker-grid">
             <div className="panel">
               <h2>Log Work</h2>
-              <SkillForm onAdd={handleAdd} />
-            </div>
-
-            <div className="panel">
+              <SkillForm
+                onAdd={handleAdd}
+                onUndo={handleUndo}
+                onRedo={handleRedo}
+                canUndo={undoRedoState.canUndo}
+                canRedo={undoRedoState.canRedo}
+              />
+            </div>            <div className="panel">
               <h2>Today's Logs</h2>
               <DailyLog logs={logs} onRemove={handleRemove} />
             </div>

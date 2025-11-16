@@ -20,7 +20,7 @@ const MoonIcon = () => (
     </svg>
 );
 
-export default function Header({ onUndo, onRedo, canUndo, canRedo }) {
+export default function Header() {
     const toggleTheme = () => {
         const currentTheme = getTheme();
         const newTheme = currentTheme === "dark" ? "light" : "dark";
@@ -36,33 +36,13 @@ export default function Header({ onUndo, onRedo, canUndo, canRedo }) {
                 <div style={{ color: 'var(--muted)', fontSize: '0.9em' }}>Track practice time & get quick insights</div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <div className="undo-redo-buttons">
-                    <button
-                        className="undo-redo-btn"
-                        onClick={onUndo}
-                        disabled={!canUndo}
-                        title="Undo last action"
-                    >
-                        ↶ Undo
-                    </button>
-                    <button
-                        className="undo-redo-btn"
-                        onClick={onRedo}
-                        disabled={!canRedo}
-                        title="Redo last action"
-                    >
-                        ↷ Redo
-                    </button>
-                </div>
-                <button
-                    className="theme-toggle"
-                    onClick={toggleTheme}
-                    title={currentTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-                >
-                    {currentTheme === "dark" ? <SunIcon /> : <MoonIcon />}
-                </button>
-            </div>
+            <button
+                className="theme-toggle"
+                onClick={toggleTheme}
+                title={currentTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            >
+                {currentTheme === "dark" ? <SunIcon /> : <MoonIcon />}
+            </button>
         </header>
     );
 }

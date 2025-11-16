@@ -84,33 +84,9 @@ body.light-theme .header {
   background: rgba(255, 255, 255, 0.2);
 }
 
-.undo-redo-buttons {
-  display: flex;
-  gap: 8px;
-  margin-left: 12px;
-}
-
-.undo-redo-btn {
+.theme-toggle {
   background: rgba(255, 255, 255, 0.1);
   color: var(--accent);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
-  padding: 6px 10px;
-  cursor: pointer;
-  font-size: 0.85em;
-  transition: background 120ms ease, opacity 120ms ease;
-}
-
-.undo-redo-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.undo-redo-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.card {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.04);
   border-radius: 10px;
@@ -241,6 +217,13 @@ main {
   font-size: 0.95em
 }
 
+.btn-ghost.icon-btn {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .btn-ghost:hover {
   background: rgba(255, 255, 255, 0.04);
   border-color: rgba(255, 255, 255, 0.12);
@@ -347,9 +330,5 @@ footer {
   .header {
     flex-direction: column;
     gap: 10px;
-  }
-
-  .undo-redo-buttons {
-    margin-left: 0;
   }
 }

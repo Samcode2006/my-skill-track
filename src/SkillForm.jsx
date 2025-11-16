@@ -2,7 +2,21 @@ import { useState } from "react";
 
 const CATEGORIES = ["Programming", "Design", "Languages", "Personal", "Other"];
 
-export default function SkillForm({ onAdd }) {
+const UndoIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 7v6h6"></path>
+        <path d="M21 17a9 9 0 00-9-9 9 9 0 00-6 2.3L3 13"></path>
+    </svg>
+);
+
+const RedoIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 7v6h-6"></path>
+        <path d="M3 17a9 9 0 019-9 9 9 0 016 2.3l3 2.7"></path>
+    </svg>
+);
+
+export default function SkillForm({ onAdd, onUndo, onRedo, canUndo, canRedo }) {
     const [skill, setSkill] = useState("");
     const [category, setCategory] = useState("Programming");
     const [hours, setHours] = useState("");
@@ -96,6 +110,24 @@ export default function SkillForm({ onAdd }) {
             <div className="form-actions">
                 <button type="submit" className="btn-primary">Add Log</button>
                 <button type="button" className="btn-ghost" onClick={reset}>Clear</button>
+                <button
+                    type="button"
+                    className="btn-ghost icon-btn"
+                    onClick={onUndo}
+                    disabled={!canUndo}
+                    title="Undo last action"
+                >
+                    <UndoIcon />
+                </button>
+                <button
+                    type="button"
+                    className="btn-ghost icon-btn"
+                    onClick={onRedo}
+                    disabled={!canRedo}
+                    title="Redo last action"
+                >
+                    <RedoIcon />
+                </button>
             </div>
 
             {error && <div className="form-error">{error}</div>}
