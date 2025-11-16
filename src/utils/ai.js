@@ -3,9 +3,17 @@ const CLAUDE_API_URL = "https://api.anthropic.com/v1/messages";
 
 export async function generateSummary(logs) {
     if (!CLAUDE_API_KEY) {
-        throw new Error(
-            "Claude API key not found. Please set VITE_CLAUDE_API_KEY in .env.local"
-        );
+        console.warn("Claude API key not set. Using fallback summaries.");
+        return {
+            summary: "AI summaries are unavailable. Please set VITE_CLAUDE_API_KEY in your environment.",
+            insights: [
+                "To enable AI features: Get a Claude API key from console.anthropic.com",
+                "Add VITE_CLAUDE_API_KEY to your .env.local file",
+                "Redeploy the app to use Claude for personalized insights",
+            ],
+            isError: true,
+            isUnavailable: true,
+        };
     }
 
     if (!logs || logs.length === 0) {
@@ -93,12 +101,30 @@ Format your response as JSON:
         };
     } catch (error) {
         console.error("AI summary error:", error);
+
+        // Check if it's a CORS or network error
+        const isNetworkError = error.message.includes("Failed to fetch") ||
+            error.message.includes("NetworkError");
+        const isAuthError = error.message.includes("401") ||
+            error.message.includes("invalid_request_error");
+
         return {
-            summary: "Unable to generate AI summary. Please try again later.",
-            insights: [
-                "Check that your API key is set correctly",
-                "Ensure your Claude API account has available credits",
-            ],
+            summary: isAuthError
+                ? "API Key Error: Please check your Claude API key is correct and has credits available."
+                : isNetworkError
+                    ? "Network Error: Unable to reach Claude API. Check your internet connection."
+                    : "Unable to generate AI summary. Please try again later.",
+            insights: isAuthError
+                ? [
+                    "Verify your API key at console.anthropic.com/account/keys",
+                    "Check that your Claude account has available credits ($5 free to start)",
+                    "Ensure you're using the latest model: claude-3-5-sonnet-20241022",
+                ]
+                : [
+                    "Check your internet connection",
+                    "Try refreshing the page",
+                    "If the problem persists, check the browser console (F12) for details",
+                ],
             isError: true,
         };
     }
