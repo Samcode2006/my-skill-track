@@ -1,15 +1,15 @@
-const CLAUDE_API_KEY = import.meta.env.VITE_CLAUDE_API_KEY;
-const CLAUDE_API_URL = "https://api.anthropic.com/v1/messages";
+const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
+const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
 
 export async function generateSummary(logs) {
-    if (!CLAUDE_API_KEY) {
-        console.warn("Claude API key not set. Using fallback summaries.");
+    if (!OPENAI_API_KEY) {
+        console.warn("OpenAI API key not set. Using fallback summaries.");
         return {
-            summary: "AI summaries are unavailable. Please set VITE_CLAUDE_API_KEY in your environment.",
+            summary: "AI summaries are unavailable. Please set VITE_OPENAI_API_KEY in your environment.",
             insights: [
-                "To enable AI features: Get a Claude API key from console.anthropic.com",
-                "Add VITE_CLAUDE_API_KEY to your .env.local file",
-                "Redeploy the app to use Claude for personalized insights",
+                "To enable AI features: Get a FREE OpenAI API key from platform.openai.com/account/api-keys",
+                "Add VITE_OPENAI_API_KEY to your .env.local file",
+                "Redeploy the app to use ChatGPT for personalized insights",
             ],
             isError: true,
             isUnavailable: true,
@@ -56,40 +56,43 @@ Format your response as JSON:
 }`;
 
     try {
-        const response = await fetch(CLAUDE_API_URL, {
+        const response = await fetch(OPENAI_API_URL, {
             method: "POST",
             headers: {
-                "x-api-key": CLAUDE_API_KEY,
-                "anthropic-version": "2023-06-01",
-                "content-type": "application/json",
+                "Authorization": `Bearer ${OPENAI_API_KEY}`,
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                model: "claude-3-5-sonnet-20241022",
-                max_tokens: 1024,
+                model: "gpt-3.5-turbo",
                 messages: [
+                    {
+                        role: "system",
+                        content: "You are a supportive learning coach. Analyze practice logs and provide personalized, encouraging insights in valid JSON format.",
+                    },
                     {
                         role: "user",
                         content: prompt,
                     },
                 ],
+                temperature: 0.7,
             }),
         });
 
         if (!response.ok) {
             const error = await response.json();
-            console.error("Claude API error:", error);
+            console.error("OpenAI API error:", error);
             throw new Error(
-                `Claude API error: ${error.error?.message || "Unknown error"}`
+                `OpenAI API error: ${error.error?.message || "Unknown error"}`
             );
         }
 
         const data = await response.json();
-        const content = data.content[0].text;
+        const content = data.choices[0].message.content;
 
         // Parse JSON response
         const jsonMatch = content.match(/\{[\s\S]*\}/);
         if (!jsonMatch) {
-            throw new Error("Failed to parse Claude response");
+            throw new Error("Failed to parse OpenAI response");
         }
 
         const parsed = JSON.parse(jsonMatch[0]);
@@ -106,19 +109,20 @@ Format your response as JSON:
         const isNetworkError = error.message.includes("Failed to fetch") ||
             error.message.includes("NetworkError");
         const isAuthError = error.message.includes("401") ||
-            error.message.includes("invalid_request_error");
+            error.message.includes("invalid_request_error") ||
+            error.message.includes("Unauthorized");
 
         return {
             summary: isAuthError
-                ? "API Key Error: Please check your Claude API key is correct and has credits available."
+                ? "API Key Error: Please check your OpenAI API key is correct."
                 : isNetworkError
-                    ? "Network Error: Unable to reach Claude API. Check your internet connection."
+                    ? "Network Error: Unable to reach OpenAI API. Check your internet connection."
                     : "Unable to generate AI summary. Please try again later.",
             insights: isAuthError
                 ? [
-                    "Verify your API key at console.anthropic.com/account/keys",
-                    "Check that your Claude account has available credits ($5 free to start)",
-                    "Ensure you're using the latest model: claude-3-5-sonnet-20241022",
+                    "Get a free OpenAI API key at platform.openai.com/account/api-keys",
+                    "Add it to .env.local as: VITE_OPENAI_API_KEY=sk-...",
+                    "You get $5 free credits to test (expires after 3 months)",
                 ]
                 : [
                     "Check your internet connection",
