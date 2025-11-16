@@ -45,7 +45,7 @@ Provide a brief, encouraging summary (2-3 sentences) and 2-3 specific, actionabl
 
     try {
         const response = await fetch(
-            "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1",
+            "https://api-inference.huggingface.co/models/meta-llama/Llama-2-7b-chat-hf",
             {
                 method: "POST",
                 headers: {
