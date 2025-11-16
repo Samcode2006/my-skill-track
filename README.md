@@ -2,7 +2,7 @@
 
 A lightweight **React + Vite** front-end web app to log and track your daily practice time across multiple skills. Get instant summaries, insights, and track your progress over time with a clean, dark-themed interface.
 
-**Live Demo**: [Deployed on GitHub Pages](https://samcode2006.github.io/skill-track)
+**Live Demo**: [Deployed on Vercel](https://my-skill-track.vercel.app/)
 
 ## Features
 
