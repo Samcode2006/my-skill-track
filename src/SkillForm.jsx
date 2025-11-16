@@ -1,13 +1,17 @@
 import { useState } from "react";
 
+const CATEGORIES = ["Programming", "Design", "Languages", "Personal", "Other"];
+
 export default function SkillForm({ onAdd }) {
     const [skill, setSkill] = useState("");
+    const [category, setCategory] = useState("Programming");
     const [hours, setHours] = useState("");
     const [notes, setNotes] = useState("");
     const [error, setError] = useState("");
 
     function reset() {
         setSkill("");
+        setCategory("Programming");
         setHours("");
         setNotes("");
         setError("");
@@ -31,6 +35,7 @@ export default function SkillForm({ onAdd }) {
             id: Date.now().toString(),
             date: new Date().toISOString().slice(0, 10), // YYYY-MM-DD
             skill: trimmedSkill,
+            category: category,
             hours: parsedHours,
             notes: notes.trim(),
             timestamp: new Date().toISOString(),
@@ -50,6 +55,21 @@ export default function SkillForm({ onAdd }) {
                     onChange={(e) => setSkill(e.target.value)}
                     placeholder="e.g. React, Prompt Engineering"
                 />
+            </label>
+
+            <label>
+                Category
+                <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="skill-form-select"
+                >
+                    {CATEGORIES.map((cat) => (
+                        <option key={cat} value={cat}>
+                            {cat}
+                        </option>
+                    ))}
+                </select>
             </label>
 
             <label>

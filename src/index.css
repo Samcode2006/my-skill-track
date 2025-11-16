@@ -6,6 +6,18 @@
   --accent: #57a0ff;
   --accent-strong: #2b7be9;
   --danger: #ff6b6b;
+  --text: #e6eef6;
+}
+
+body.light-theme {
+  --bg: #f5f7fa;
+  --panel: #ffffff;
+  --muted: #666666;
+  --surface: #eeeeee;
+  --accent: #0066cc;
+  --accent-strong: #0052a3;
+  --danger: #cc0000;
+  --text: #1a1a1a;
 }
 
 /* Global dark background/text */
@@ -24,11 +36,12 @@ body {
 
 body {
   background: var(--bg);
-  color: #e6eef6;
+  color: var(--text);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
 .app-root {
@@ -42,11 +55,56 @@ body {
   min-height: 60px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   color: var(--accent);
   padding: 0 20px;
-  text-align: center;
   font-size: 1.25em;
   font-weight: 700;
+}
+
+body.light-theme .header {
+  background: linear-gradient(90deg, rgba(220, 230, 240, 0.95), rgba(240, 245, 250, 0.95));
+}
+
+.theme-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--accent);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background 120ms ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.undo-redo-buttons {
+  display: flex;
+  gap: 8px;
+  margin-left: 12px;
+}
+
+.undo-redo-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--accent);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 0.85em;
+  transition: background 120ms ease, opacity 120ms ease;
+}
+
+.undo-redo-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.undo-redo-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .card {
@@ -130,6 +188,21 @@ main {
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.02);
   color: inherit
+}
+
+.skill-form-select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  color: inherit;
+}
+
+.skill-form-select option {
+  background: var(--bg);
+  color: var(--text);
 }
 
 .skill-form textarea {
@@ -242,6 +315,17 @@ main {
   border-radius: 6px
 }
 
+.skill-category {
+  margin-bottom: 12px;
+}
+
+.category-label {
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-size: 0.95em;
+}
+
 footer {
   background: linear-gradient(90deg, rgba(10, 20, 40, 0.95), rgba(8, 15, 30, 0.95));
   padding: 16px 20px;
@@ -255,5 +339,14 @@ footer {
 @media (max-width:800px) {
   .tracker-grid {
     grid-template-columns: 1fr
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .undo-redo-buttons {
+    margin-left: 0;
   }
 }
