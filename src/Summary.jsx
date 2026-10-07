@@ -7,6 +7,13 @@ function summarizeNotes(notes) {
     return sentences.slice(0, 2).join(" ").slice(0, 300);
 }
 
+function cleanAiText(text) {
+    return String(text || "")
+        .replace(/\*\*/g, "")
+        .replace(/^\s*[-*]\s*/, "")
+        .trim();
+}
+
 const LoadingSpinner = () => (
     <div className="loading-state">
         <div className="spinner"></div>
@@ -94,7 +101,7 @@ export default function Summary({ logs = [] }) {
                     <LoadingSpinner />
                 ) : aiSummary ? (
                     <>
-                        <p>{aiSummary.summary}</p>
+                        <p>{cleanAiText(aiSummary.summary)}</p>
 
                         <h4>By Category</h4>
                         <div style={{ fontSize: "0.95em", lineHeight: "1.6" }}>
@@ -117,7 +124,7 @@ export default function Summary({ logs = [] }) {
                         <h4>Smart Insights</h4>
                         <ul>
                             {aiSummary.insights.map((insight, idx) => (
-                                <li key={idx}>{insight}</li>
+                                <li key={idx}>{cleanAiText(insight)}</li>
                             ))}
                         </ul>
 
