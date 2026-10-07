@@ -8,15 +8,8 @@ function summarizeNotes(notes) {
 }
 
 const LoadingSpinner = () => (
-    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        <div style={{
-            width: "16px",
-            height: "16px",
-            border: "2px solid rgba(255, 255, 255, 0.2)",
-            borderTop: "2px solid var(--accent)",
-            borderRadius: "50%",
-            animation: "spin 0.6s linear infinite",
-        }}></div>
+    <div className="loading-state">
+        <div className="spinner"></div>
         <span>Generating insights...</span>
     </div>
 );
@@ -74,7 +67,7 @@ export default function Summary({ logs = [] }) {
     }, [logs]);
 
     if (!logs || logs.length === 0) {
-        return <div className="summary-empty">No data yet — add some work to see a summary.</div>;
+        return <div className="summary-empty">No data yet. Add a work session to see your summary.</div>;
     }
 
     const notesSnippet = summarizeNotes(combinedNotes);
@@ -82,14 +75,20 @@ export default function Summary({ logs = [] }) {
     return (
         <div className="summary">
             <div className="summary-box">
-                <p><strong>Total hours:</strong> {totalHours}</p>
-                <p><strong>Categories:</strong> {Object.keys(categoryCounts).length}</p>
-                <p><strong>Skills:</strong> {Object.keys(skillCounts).length}</p>
-                {topSkill && <p><strong>Top skill:</strong> {topSkill} ({skillCounts[topSkill]}h)</p>}
+                <div className="metric"><span>Total hours</span><strong>{totalHours}</strong></div>
+                <div className="metric"><span>Categories</span><strong>{Object.keys(categoryCounts).length}</strong></div>
+                <div className="metric"><span>Skills</span><strong>{Object.keys(skillCounts).length}</strong></div>
+                {topSkill && <div className="metric"><span>Top skill</span><strong>{topSkill}</strong></div>}
             </div>
 
             <div className="summary-ai">
-                <h3>AI-Powered Summary</h3>
+                <div className="summary-title">
+                    <div>
+                        <p className="section-kicker">Powered by AI</p>
+                        <h3>What you worked on</h3>
+                    </div>
+                    <span className="insight-badge">Insights</span>
+                </div>
 
                 {aiLoading ? (
                     <LoadingSpinner />
@@ -102,8 +101,8 @@ export default function Summary({ logs = [] }) {
                             {Object.entries(categoryCounts)
                                 .sort((a, b) => b[1] - a[1])
                                 .map(([cat, hrs]) => (
-                                    <div key={cat}>
-                                        <strong>{cat}:</strong> {hrs}h
+                                    <div key={cat} className="category-row">
+                                        <span>{cat}</span><strong>{hrs} hr</strong>
                                     </div>
                                 ))}
                         </div>
@@ -123,8 +122,8 @@ export default function Summary({ logs = [] }) {
                         </ul>
 
                         {aiError && (
-                            <p style={{ color: "var(--danger)", fontSize: "0.9em", marginTop: "8px" }}>
-                                ⚠️ Some features unavailable. Check your API key.
+                            <p className="summary-error">
+                            Some features are unavailable. Check your API key.
                             </p>
                         )}
                     </>
@@ -133,11 +132,6 @@ export default function Summary({ logs = [] }) {
                 )}
             </div>
 
-            <style>{`
-                @keyframes spin {
-                    to { transform: rotate(360deg); }
-                }
-            `}</style>
         </div>
     );
 }

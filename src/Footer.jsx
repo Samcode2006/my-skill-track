@@ -2,7 +2,7 @@
 function Footer() {
     return (
         <footer>
-            <br /> <p>&copy; {new Date().getFullYear()} Sammsite. All rights reserved.</p>
+            <p>AI Skill Tracker <span>·</span> {new Date().getFullYear()}</p>
         </footer>
     );
 }

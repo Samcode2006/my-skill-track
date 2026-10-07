@@ -21,13 +21,16 @@ export default function DailyLog({ logs = [], onRemove }) {
                 <>
                     {categories.map((category) => (
                         <div key={category} className="skill-category">
-                            <div className="category-label">{category}</div>
+                            <div className="category-label">
+                                <span>{category}</span>
+                                <span className="category-count">{grouped[category].length}</span>
+                            </div>
                             <ul className="log-list">
                                 {grouped[category].map((log) => (
                                     <li key={log.id} className="log-item">
                                         <div className="log-main">
                                             <div className="skill">{log.skill}</div>
-                                            <div className="hours">{log.hours}h</div>
+                                            <div className="hours">{log.hours} hr</div>
                                         </div>
                                         {log.notes && <div className="notes">{log.notes}</div>}
                                         <div className="log-actions">
@@ -39,7 +42,7 @@ export default function DailyLog({ logs = [], onRemove }) {
                         </div>
                     ))}
 
-                    <div className="log-total">Total hours today: <strong>{totalHours}</strong></div>
+                    <div className="log-total"><span>Total time today</span><strong>{totalHours} hr</strong></div>
                 </>
             )}
         </div>

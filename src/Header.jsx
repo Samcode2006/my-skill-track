@@ -31,9 +31,12 @@ export default function Header() {
 
     return (
         <header className="header">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ fontWeight: 800, color: 'var(--accent)' }}>AI Skill Tracker</div>
-                <div style={{ color: 'var(--muted)', fontSize: '0.9em' }}>Track practice time & get quick insights</div>
+            <div className="brand">
+                <div className="brand-mark">A</div>
+                <div>
+                    <div className="brand-name">AI Skill Tracker</div>
+                    <div className="brand-subtitle">Practice with intention</div>
+                </div>
             </div>
 
             <button
@@ -42,6 +45,7 @@ export default function Header() {
                 title={currentTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             >
                 {currentTheme === "dark" ? <SunIcon /> : <MoonIcon />}
+                <span>{currentTheme === "dark" ? "Light mode" : "Dark mode"}</span>
             </button>
         </header>
     );

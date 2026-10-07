@@ -62,7 +62,7 @@ export default function SkillForm({ onAdd, onUndo, onRedo, canUndo, canRedo }) {
     return (
         <form onSubmit={handleSubmit} className="skill-form">
             <label>
-                Skill
+                <span>Skill</span>
                 <input
                     type="text"
                     value={skill}
@@ -72,7 +72,7 @@ export default function SkillForm({ onAdd, onUndo, onRedo, canUndo, canRedo }) {
             </label>
 
             <label>
-                Category
+                <span>Category</span>
                 <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
@@ -87,7 +87,7 @@ export default function SkillForm({ onAdd, onUndo, onRedo, canUndo, canRedo }) {
             </label>
 
             <label>
-                Hours
+                <span>Hours</span>
                 <input
                     type="number"
                     step="0.25"
@@ -99,7 +99,7 @@ export default function SkillForm({ onAdd, onUndo, onRedo, canUndo, canRedo }) {
             </label>
 
             <label>
-                Notes (optional)
+                <span>Notes <em>Optional</em></span>
                 <textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
@@ -108,7 +108,7 @@ export default function SkillForm({ onAdd, onUndo, onRedo, canUndo, canRedo }) {
             </label>
 
             <div className="form-actions">
-                <button type="submit" className="btn-primary">Add Log</button>
+                <button type="submit" className="btn-primary">Add log</button>
                 <button type="button" className="btn-ghost" onClick={reset}>Clear</button>
                 <button
                     type="button"
@@ -116,6 +116,7 @@ export default function SkillForm({ onAdd, onUndo, onRedo, canUndo, canRedo }) {
                     onClick={onUndo}
                     disabled={!canUndo}
                     title="Undo last action"
+                    aria-label="Undo last action"
                 >
                     <UndoIcon />
                 </button>
@@ -125,6 +126,7 @@ export default function SkillForm({ onAdd, onUndo, onRedo, canUndo, canRedo }) {
                     onClick={onRedo}
                     disabled={!canRedo}
                     title="Redo last action"
+                    aria-label="Redo last action"
                 >
                     <RedoIcon />
                 </button>
