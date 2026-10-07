@@ -32,7 +32,6 @@ export default function Header() {
     return (
         <header className="header">
             <div className="brand">
-                <div className="brand-mark">A</div>
                 <div>
                     <div className="brand-name">AI Skill Tracker</div>
                     <div className="brand-subtitle">Practice with intention</div>
