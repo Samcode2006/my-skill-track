@@ -51,7 +51,7 @@ Provide a brief, encouraging summary (2-3 sentences) and 2-3 specific, actionabl
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                model: "mixtral-8x7b-32768",
+                model: process.env.GROQ_MODEL || "openai/gpt-oss-20b",
                 messages: [
                     {
                         role: "system",
