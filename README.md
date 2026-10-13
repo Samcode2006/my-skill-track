@@ -148,28 +148,24 @@ my-react-app/
 - **Storage**: Browser localStorage (no server needed)
 - **Linting**: ESLint
 
-## Development & Contributing
+## Current Learning & DevOps Work
 
-Want to improve the tracker? Here's how:
+This project is part of our ongoing learning journey in modern software engineering and DevOps. Some of the key technologies and practices we have been working on include:
 
-1. Fork the repo and clone locally
-2. Install dependencies: `npm install`
-3. Start dev server: `npm run dev`
-4. Make changes, test locally
-5. Push to your branch and open a pull request
+- **Docker**: Containerizing applications, creating Dockerfiles, and understanding image builds and environment isolation
+- **Jenkins**: CI/CD pipeline automation, build/test automation, and deployment workflows
+- **Kubernetes**: Container orchestration basics, deployments, services, scaling, and cluster management
+- **Git & GitHub**: Version control, branching, merging, and collaborative development
+- **Linux & Networking**: Shell usage, environment setup, and basic server administration concepts
+
+These tools help improve our understanding of how modern applications are built, tested, deployed, and scaled in real-world environments.
 
 ### Future Ideas
 - Date navigation to view past logs
 - CSV/JSON export of logs
 - Skill categories and filtering
 - Time-series charts (visualize progress over weeks/months)
-- Real LLM integration for better summaries (OpenAI, Claude, etc.)
-- PWA support (offline mode, install as app)
-- Dark/light theme toggle
 
-## License & Acknowledgments
-
-Built with [React](https://react.dev) and [Vite](https://vitejs.dev).
 
 ## Troubleshooting
 
@@ -186,8 +182,3 @@ Built with [React](https://react.dev) and [Vite](https://vitejs.dev).
 **Form validation errors?**
 - Skill name required, hours must be a positive number
 
-## Questions?
-
-Feel free to open an issue on GitHub or reach out!
-
-📧 Contact: samcode2006
