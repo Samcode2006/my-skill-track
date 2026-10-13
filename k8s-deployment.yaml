@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skill-track
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: skill-track
+  template:
+    metadata:
+      labels:
+        app: skill-track
+    spec:
+      containers:
+        - name: skill-track
+          image: skill-track:11
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
