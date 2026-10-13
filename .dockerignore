@@ -3,3 +3,4 @@ dist
 .env
 .git
 .vercel
+skill-track*.tar
