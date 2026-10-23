@@ -80,6 +80,16 @@ npm run preview
 
 ## Deployment
 
+### Kubernetes / Jenkins verification
+
+The application can be exposed locally from the Kubernetes service on port `8082`:
+
+```pwsh
+kubectl port-forward service/skill-track-service 8082:80
+```
+
+After the port-forward is running, open [http://localhost:8082](http://localhost:8082) to verify the deployment. Pushing to `main` also provides a simple change trigger for the Jenkins CI/CD pipeline.
+
 ### Option 1: GitHub Pages (Automatic with Actions)
 
 This repo includes a GitHub Actions workflow (`.github/workflows/deploy-pages.yml`) that:
@@ -181,4 +191,3 @@ These tools help improve our understanding of how modern applications are built,
 
 **Form validation errors?**
 - Skill name required, hours must be a positive number
-
