@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { getTheme, setTheme } from "./utils/storage.js";
 
 const SunIcon = () => (
@@ -21,13 +22,13 @@ const MoonIcon = () => (
 );
 
 export default function Header() {
-    const toggleTheme = () => {
-        const currentTheme = getTheme();
-        const newTheme = currentTheme === "dark" ? "light" : "dark";
-        setTheme(newTheme);
-    };
+    const [theme, setCurrentTheme] = useState(getTheme);
 
-    const currentTheme = getTheme();
+    const toggleTheme = () => {
+        const newTheme = theme === "dark" ? "light" : "dark";
+        setTheme(newTheme);
+        setCurrentTheme(newTheme);
+    };
 
     return (
         <header className="header">
@@ -41,10 +42,12 @@ export default function Header() {
             <button
                 className="theme-toggle"
                 onClick={toggleTheme}
-                title={currentTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                aria-pressed={theme === "dark"}
+                title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             >
-                {currentTheme === "dark" ? <SunIcon /> : <MoonIcon />}
-                <span>{currentTheme === "dark" ? "Light mode" : "Dark mode"}</span>
+                {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+                <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
             </button>
         </header>
     );
